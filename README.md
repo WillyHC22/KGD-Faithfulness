@@ -8,6 +8,6 @@ TODO:
 
     - Make the pipieline
 
-    - Decide on QA dataset (QuAC?)
+    - Decide on QA dataset (QuAC?) QuAC is a good because 1) Not used by T0 during PT 2) The context is in dialog form
 
     - Do the question the generation 
