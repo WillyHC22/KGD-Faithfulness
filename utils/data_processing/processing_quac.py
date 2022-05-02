@@ -16,8 +16,10 @@ def process_quac_csv(quac, save_path, args):
         if "CANNOTANSWER" not in answers:
             continue
         #If the two answerable questions have answers that have start_answer > 600, skip this sample
-        answer_starts = [answer_start[0] for answer_start in data["answers"]["answer_starts"][:2]]
+        answer_starts = [answer_start[0] for answer_start in data["answers"]["answer_starts"][:2]] #debug here to get two minimums
         if answer_starts[-1] > args.max_answer_starts:
+            continue
+        if answer_starts[0] > args.max_answer_starts:
             continue
 
         unans_index = answers.index("CANNOTANSWER")
