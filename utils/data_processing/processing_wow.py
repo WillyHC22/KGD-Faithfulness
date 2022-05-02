@@ -1,10 +1,5 @@
-import re
-import torch
 import json
 import csv
-# from tqdm import tqdm
-# from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-# from datasets import load_dataset
 
 def process_wow_csv(wow, save_path):
     fieldnames = ["index", "dialogue", "knowledge", "speakers", "number_of_turns", "word_count"]
