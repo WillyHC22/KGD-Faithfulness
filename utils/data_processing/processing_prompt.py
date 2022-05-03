@@ -15,10 +15,10 @@ def get_dialogue(row_wow):
 
     if speakers[3] == "Wizard": #We want to infer on wizard conversation because we have the knowledge they use
         dialogue = dialogue_turns[:3]
-        knowledge = knowledge_turns[3]
+        knowledge = knowledge_turns[2]
     else:
         dialogue = dialogue_turns[:4]
-        knowledge = knowledge_turns[4]
+        knowledge = knowledge_turns[3]
     dialogue = " ".join(dialogue)
 
     final_dialogue += f"Given the knowledge and the conversation, write the next turn of the conversation. Knowledge: {knowledge} Conversation: {dialogue}"
@@ -77,7 +77,7 @@ if __name__ == "__main__":
 
     #tokenizer = AutoTokenizer.from_pretrained("bigscience/T0_3B")
     #model = AutoModelForSeq2SeqLM.from_pretrained("bigscience/T0_3B")
-    kshot = 0
+    kshot = 2
     save_path_csv = f"/home/willy/comp5214-groundedness-kgd/data/processed_prompt/prompts_{kshot}_shot.csv"
     quac = pd.read_csv("/home/willy/comp5214-groundedness-kgd/data/QuAC/quac_processed.csv")
     wow = pd.read_csv("/home/willy/comp5214-groundedness-kgd/data/wizard_of_wikipedia/wow_processed.csv")

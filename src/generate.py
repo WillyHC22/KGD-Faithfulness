@@ -38,6 +38,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     kshot = args.kshot
-    save_path_csv = f"/home/willy/comp5214-groundedness-kgd/data/generated_data/{args.save_file}"
+    save_path_csv = f"/home/willy/comp5214-groundedness-kgd/data/generated_data/{args.save_file}_{kshot}_shot.csv"
     prompts = pd.read_csv(f"/home/willy/comp5214-groundedness-kgd/data/processed_prompt/prompts_{kshot}_shot.csv")
     main(prompts, save_path_csv)

@@ -10,20 +10,31 @@ def process_wow_csv(wow, save_path_csv, save_path_json):
         cur_data = {}
         dialogue = []
         speakers = []
+        knowledge = []
         dialog = data["dialog"]
-        knowledge = data["chosen_topic_passage"]
+        #knowledge = data["chosen_topic_passage"] Error, the knowledge should be checked_passage
         topic = data["chosen_topic"]
-        number_of_turns = len(knowledge)
+        number_of_turns = len(dialog)
 
         for i in range(len(dialog)):
             text = dialog[i]["text"]
             speaker = dialog[i]["speaker"][2:]
+            if speaker == "Wizard":
+                checked_sentence = dialog[i]["checked_sentence"].values()
+                print(checked_sentence)
+                if checked_sentence:
+                    print("in iteration")
+                    checked_sentence = next(iter(checked_sentence))
+                    knowledge.append(checked_sentence)
+                else:
+                    knowledge.append("")
             #dialog_turn = f" {speaker}: {text}"
             dialog_turn = " " + speaker + ": " + text
             word_count += len(dialog_turn.split())
 
             dialogue.append(dialog_turn)
             speakers.append(speaker)
+            
 
         cur_data["word_count"] = word_count
         cur_data["topic"] = topic
