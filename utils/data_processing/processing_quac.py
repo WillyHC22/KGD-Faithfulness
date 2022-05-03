@@ -38,7 +38,6 @@ def process_quac_csv(quac, save_path, args):
         cur_data["unans_answers"] = unans_answer
         rows.append(cur_data)
 
-    
     with open(save_path, 'w', encoding='UTF8', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
