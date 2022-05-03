@@ -1,6 +1,7 @@
 import json
 import csv
 import ast
+import argparse
 import numpy as np
 import pandas as pd 
 from tqdm import tqdm
@@ -16,7 +17,8 @@ def main(prompts, save_path_csv):
         cur_data = {}
         prompt = row["prompt"]
         inputs = tokenizer.encode(prompt, return_tensors="pt")
-        output = model.generate(inputs)
+        output_token = model.generate(inputs)
+        output = tokenizer.decode(output_token[0])
 
         cur_data["prompt"] = prompt
         cur_data["output"] = output
@@ -29,7 +31,13 @@ def main(prompts, save_path_csv):
 
 
 if __name__ == "__main__":
-    kshot = 1
-    save_path_csv = "/home/willy/comp5214-groundedness-kgd/data/generated_data/output.csv"
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--save_file", required=True, type=str, help="name of the file to save as csv")
+    parser.add_argument("--kshot", required=True, type=int, help="how many shot for examples, 0/1/2 ")
+    args = parser.parse_args()
+
+    kshot = args.kshot
+    save_path_csv = f"/home/willy/comp5214-groundedness-kgd/data/generated_data/{args.save_file}"
     prompts = pd.read_csv(f"/home/willy/comp5214-groundedness-kgd/data/processed_prompt/prompts_{kshot}_shot.csv")
     main(prompts, save_path_csv)
