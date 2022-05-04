@@ -16,26 +16,19 @@ def get_dialogue(row_wow):
     if speakers[3] == "Wizard": #We want to infer on wizard conversation because we have the knowledge they use
         dialogue = dialogue_turns[:3]
         knowledge = knowledge_turns[2]
-        message = dialogue_turns[2]
-        gold = dialogue_turns[3]
-        round_nb = 3
     else:
         dialogue = dialogue_turns[:4]
         knowledge = knowledge_turns[3]
-        message = dialogue_turns[3]
-        gold = dialogue_turns[4]
-        round_nb = 4
-
     dialogue = " ".join(dialogue)
 
     final_dialogue += f"Given the knowledge and the conversation, write the next turn of the conversation. Knowledge: {knowledge} Conversation: {dialogue}"
 
-    return final_dialogue, knowledge, round_nb, gold, message
+    return final_dialogue
 
 
 def craft_prompt(quac, wow, save_path_csv, kshot=2):
 
-    fieldnames = ["index", "topic", "prompt", "knowledge", "round_nb", "gold", "message"]
+    fieldnames = ["index", "topic", "prompt"]
     rows = []
 
     for global_index, row_wow in wow.iterrows():
@@ -64,17 +57,13 @@ def craft_prompt(quac, wow, save_path_csv, kshot=2):
             for question, answer in zip(ans_questions, ans_answers):
                 prompt += f"Question: {question} Answer: {answer} "
             
-        dialogue_turn, knowledge, round_nb, gold, message = get_dialogue(row_wow)
+        dialogue_turn = get_dialogue(row_wow)
         prompt += dialogue_turn
         quac.drop(quac.index[indexes], inplace=True)
         quac.reset_index(drop=True, inplace=True)
         cur_data["index"] = global_index
         cur_data["prompt"] = prompt
         cur_data["topic"] = topic
-        cur_data["knowledge"] = knowledge
-        cur_data["round_nb"] = round_nb
-        cur_data["gold"] = gold
-        cur_data["message"] = message
         rows.append(cur_data)
 
     with open(save_path_csv, 'w', encoding='UTF8', newline='') as f:
@@ -88,7 +77,7 @@ if __name__ == "__main__":
 
     #tokenizer = AutoTokenizer.from_pretrained("bigscience/T0_3B")
     #model = AutoModelForSeq2SeqLM.from_pretrained("bigscience/T0_3B")
-    kshot = 0
+    kshot = 2
     save_path_csv = f"/home/willy/comp5214-groundedness-kgd/data/processed_prompt/prompts_{kshot}_shot.csv"
     quac = pd.read_csv("/home/willy/comp5214-groundedness-kgd/data/QuAC/quac_processed.csv")
     wow = pd.read_csv("/home/willy/comp5214-groundedness-kgd/data/wizard_of_wikipedia/wow_processed.csv")

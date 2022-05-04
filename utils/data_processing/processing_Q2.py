@@ -3,19 +3,29 @@ import argparse
 from datasets import load_dataset
 
 
-def process_q2_csv(wow, prompt, save_path, args):
-    fieldnames = ["episode_idx", "round", "topic", "message", "response", "knowledge", "gold"]
+def process_q2_csv(processed_prompt, generated, save_path):
+    fieldnames = ["episode_idx", "topic", "round", "message", "response", "knowledge", "gold"]
     rows = []
+    episode_idx = 0
+    for index in range(len(processed_prompt)):
+        cur_data = {}
 
-    
+        output = generated.iloc[index]["output"]
+        if output[-4:] == "</s>":
+            response = output[6:-4]
+        else:
+            response = output[6:]
+
         cur_data["episode_idx"] = episode_idx
-        cur_data["round"] = round
-        cur_data["topic"] = topic       
-        cur_data["message"] = message
+        cur_data["round"] = processed_prompt["round_nb"]
+        cur_data["topic"] = processed_prompt["topic"]
+        cur_data["message"] = processed_prompt["message"][13:]
         cur_data["response"] = response
-        cur_data["knowledge"] = knowledge
-        cur_data["gold"] = gold
+        cur_data["knowledge"] = processed_prompt["knowledge"]
+        cur_data["gold"] = processed_prompt["gold"][9:]
         rows.append(cur_data)
+
+        episode_idx += 1
 
     with open(save_path, 'w', encoding='UTF8', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
@@ -26,10 +36,13 @@ def process_q2_csv(wow, prompt, save_path, args):
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--max_answer_starts", type=int, required=False, default=400, help="max index for the answers (so we can cut the context until the highest anser_start)")
+    parser.add_argument("--kshot", required=True, type=int, help="which few shot you want to process: 0/1/2 for now")
+    parser.add_argument("--save_file", default="Q2", type=str, help="Name the output file")
     args = parser.parse_args()
 
-    quac = load_dataset("quac", split="train")
-    save_path = "/home/willy/comp5214-groundedness-kgd/data/Q2_run/quac_processed.csv"
-    wow_path = "/home/willy/comp5214-groundedness-kgd/data/wizard_of_wikipedia/test_topic_split.json"
-    process_q2_csv(quac, save_path, args)
+    kshot = args.kshot
+    save_file = args.save_file
+    save_path = f"/home/willy/comp5214-groundedness-kgd/data/Q2_run/{save_file}_{kshot}_shot.csv"
+    processed_prompt = f"/home/willy/comp5214-groundedness-kgd/data/processed_prompt/prompts_{kshot}_shot.csv"
+    generated = f"/home/willy/comp5214-groundedness-kgd/data/generated_data/output_{kshot}_shot.csv"
+    process_q2_csv(processed_prompt, generated, save_path)
