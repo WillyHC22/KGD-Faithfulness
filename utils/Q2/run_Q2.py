@@ -37,14 +37,23 @@ def non_personal(question):
 
 
 def single_question_score(question, cand, response, knowledge):
+    print(f"This is the question type {type(question)} ||: {question}")
+    print(f"This is the response type {type(response)} ||: {response}")
+    print(f"This is the cand type {type(cand)} ||: {cand}")
+    print(f"This is the knowledge type {type(knowledge)} ||: {knowledge}")
+    print("-------------")
     pred_ans = qa.get_answer(question, response)
 
-    if filter_questions(cand, pred_ans) == 'VALID':
-        knowledge_ans = qa.get_answer(question, knowledge)
-        if knowledge_ans != NO_ANS:
-            return f1_score(cand, knowledge_ans), knowledge_ans
+    # if filter_questions(cand, pred_ans) == 'VALID':
+    if not isinstance(knowledge, float):
+        if filter_questions(cand, pred_ans) == 'VALID': #New one to treat the NaN knowledge that are Valid somehow
+            knowledge_ans = qa.get_answer(question, knowledge)
+            if knowledge_ans != NO_ANS:
+                return f1_score(cand, knowledge_ans), knowledge_ans
+            else:
+                return 0, NO_ANS
         else:
-            return 0, NO_ANS
+            return INVALID_QUESTION, INVALID_QUESTION
     else:
         return INVALID_QUESTION, INVALID_QUESTION
 
@@ -145,6 +154,7 @@ def calc_scores(in_path, gen_method, single, remove_personal, out_path='', save_
     ids = []
 
     for idx, row in tqdm(df.iterrows()):
+        print(f"Iteration number {idx}")
         res, res_questions, res_cands, res_answers, res_scores =\
             get_response_score(row['response'], row['knowledge'], gen_method, single, remove_personal)
 
@@ -166,6 +176,7 @@ def calc_scores(in_path, gen_method, single, remove_personal, out_path='', save_
             ids.extend([idx])
 
         q_scores.append(res)
+
 
     if out_path != '':
         df['Q2'] = q_scores
