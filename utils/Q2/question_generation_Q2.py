@@ -3,11 +3,11 @@ from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, AutoModelForQuest
 import spacy
 
 
-# qg_tokenizer = AutoTokenizer.from_pretrained("mrm8488/t5-base-finetuned-question-generation-ap")
-# qg_model = AutoModelWithLMHead.from_pretrained("mrm8488/t5-base-finetuned-question-generation-ap")
+qg_tokenizer = AutoTokenizer.from_pretrained("mrm8488/t5-base-finetuned-question-generation-ap")
+qg_model = AutoModelWithLMHead.from_pretrained("mrm8488/t5-base-finetuned-question-generation-ap")
 
-qg_tokenizer = AutoTokenizer.from_pretrained("bigscience/T0_3B")
-qg_model = AutoModelForSeq2SeqLM.from_pretrained("bigscience/T0_3B")
+# qg_tokenizer = AutoTokenizer.from_pretrained("bigscience/T0_3B")
+# qg_model = AutoModelForSeq2SeqLM.from_pretrained("bigscience/T0_3B")
 
 nlp = spacy.load("en_core_web_sm")
 
