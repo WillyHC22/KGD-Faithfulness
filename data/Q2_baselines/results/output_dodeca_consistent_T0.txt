@@ -1,0 +1,4 @@
+dodeca_consistent.csv beam True True
+True
+total with at least 1 valid question: 31
+score: 0.25847285927931085

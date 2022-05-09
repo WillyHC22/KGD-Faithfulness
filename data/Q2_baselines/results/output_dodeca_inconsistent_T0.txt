@@ -1,0 +1,8 @@
+/data_inconsistent/dodeca_inconsistent.csv beam True True
+True
+/data_inconsistent/dodeca_inconsistent.csv beam True True
+True
+dodeca_inconsistent.csv beam True True
+True
+total with at least 1 valid question: 32
+score: 0.16558035297685705
