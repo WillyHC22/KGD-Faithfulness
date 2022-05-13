@@ -56,7 +56,7 @@ def craft_prompt(quac, wow, save_path_csv, kshot=2):
 
 
             context = cur_row["context"][:(ans_starts[-1]+len(ans_answers[-1])+10)] #cut context
-            prompt += f"Context: {context} "
+            prompt += f"Answer the question depending on the context. Context: {context}. "
 
             unans_question = cur_row["unans_questions"]
             prompt += f"Question: {unans_question} Answer: None. "
