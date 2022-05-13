@@ -2,8 +2,7 @@
 **Willy Chung, Cheuk Tung Shadow Yiu**
 
 Proposal: https://www.overleaf.com/project/622870e3d5c648efbb791612  
-Project Milestone: [Add Milestone]  
-Report: [Add Report]  
+Report: https://www.overleaf.com/project/627a060667407830d791e481  
 
 This is a project done in the context the course **COMP5214 - Advanced Deep Learning Architecture** by **Prof. Qifeng Chen** in Hong Kong University of Science and Technology.
 
