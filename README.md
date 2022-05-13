@@ -1,5 +1,8 @@
 # COMP5214-groundedness-kgd
 
+**Improving factual faithfulness for prompt-based knowledge-grounded dialogue in few-shot settings**  
+by Willy Chung, Cheuk Tung Shadow Yiu
+
 Proposal: https://www.overleaf.com/project/622870e3d5c648efbb791612  
 Project Milestone: [Add Milestone]  
 Report: [Add Report]  
